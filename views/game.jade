@@ -1,0 +1,16 @@
+cxcar(width='50%', height='100%', game='game', display='inline-block')
+
+section.currentScore
+	h1 Round high: {{highscores[0].highscore}} by {{highscores[0].handle}}
+	h1 Current Players
+	table.currentplayers
+		tr
+			th Color
+			th Player
+			th Points
+			th Best Score
+		tr(ng-repeat="player in players | orderBy:'score':true")
+			td(style='background-color:{{player.color}}')
+			td {{player.handle | truncateHandle}}
+			td.number {{player.score}}
+			td.number {{player.highscore}}

@@ -1,0 +1,38 @@
+doctype html
+html(ng-app='app')
+    head
+        title= title
+        meta(name="viewport" content="width=device-width, user-scalable=no")
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        block javascript
+        script('src'= '/socket.io/socket.io.js')
+        script('src'= '/lib/angular.min.js')
+        script('src'= '/lib/angular-touch.min.js')
+        script('src'= '/lib/angular-route.min.js')
+        script('src'= '/lib/angular-animate.min.js')
+        script('src'= '/lib/RGBColor.js')
+        script('src'= '/app/game/GameObject.js')
+        script('src'= '/app/game/VisualGameObject.js')
+        script('src'= '/app/game/RepeatingGameObject.js')
+        script('src'= '/app/game/Utils.js')
+        script('src'= '/app/game/cxcarBackground.js')
+        script('src'= '/app/game/flame.js')
+        script('src'= '/app/game/cxcarGame.js')
+        script('src'= '/app/app.js')
+        script('src'= '/app/filters/truncateHandle.js')
+        script('src'= '/app/services/socketService.js')
+        script('src'= '/app/services/gameService.js')
+        script('src'= '/app/controllers/menuCtrl.js')
+        script('src'= '/app/controllers/playerCtrl.js')
+        script('src'= '/app/controllers/highscoresCtrl.js')
+        script('src'= '/app/controllers/gameCtrl.js')
+        script('src'= '/app/controllers/raffleCtrl.js')
+        script('src'= '/app/directives/cxcarDirective.js')
+        script('src'= '/app/directives/fireworksDirective.js')
+    body
+        a.burger(href="#/" style="position:absolute;top:20px;left:20px;z-index:100")
+            div
+            div
+            div
+        div.view-animate-container
+            div.view-animate(ng-view="")

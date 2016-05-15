@@ -1,0 +1,24 @@
+div.menupage
+    header
+        h1 CXCar
+        p Welcome{{player.handle?' ' + player.handle:''}}!
+    section(class='login' ng-hide='player.handle')
+        p Please give your email or twitter handle to play.
+        div
+            input.handle-setter(ng-model='username', ng-change='resetHandleError()')
+            button.btn-small(ng-click='setHandle()')
+                img(src='../img/play.png' class='icon')
+    section(class='loggedIn')
+        p(class='error') {{handleError}}
+    section(class='loggedIn')
+        p(ng-show='player.handle') Your highscore: {{player.highscore}}
+        div(ng-show='player.handle')
+            a.btn(ng-href='#/player') Play!
+        div
+            a.btn(ng-href='#/highscores') Highscores
+        div
+            a.btn(ng-href='#/game') Current game
+    section(class='status')
+      div Online players: {{players.online.length}}
+      div Playing: {{players.playing.length}}
+      div Total players: {{players.all.length}}

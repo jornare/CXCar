@@ -1,0 +1,9 @@
+fireworks(ng-if="winner")
+a.btn(ng-click="reRaffle()" ng-show="winner" style="position:absolute;right: 20px") Re-draw
+h1(ng-if="!winner") Raffle time!
+h1(ng-if="winner") Winner is
+div
+    a.btn.center(ng-click="raffle()" ng-hide="isRaffleRunning || winner") Start
+div
+    div.ticket(ng-repeat="ticket in tickets" class="spin" ng-class="{winner:ticket.handle==winner}") {{ticket.handle}}
+//    div.winner(ng-show="winner") Winner is {{winner}}!

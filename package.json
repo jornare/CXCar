@@ -1,0 +1,22 @@
+﻿{
+  "name": "CXCar",
+  "version": "0.1.0",
+  "description": "CXCar",
+  "main": "app.js",
+  "author": {
+    "name": "Jørn Are Hatlelid",
+    "email": "jah@computas.com"
+  },
+  "scripts": {
+	"start": "node app.js port=80"
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+    "stylus": "*",
+    "socket.io": "*"
+  },
+  "repository": {
+    
+  }
+}

@@ -1,0 +1,11 @@
+﻿backend
+	highscore list
+
+    tracke spillere (innlogging for å skille brukerne)
+
+    unngå at refresh fører til flere spillere
+
+frontend
+    skille spillere med farge
+
+    nice to have om vi har tid: nåværende spillere i selve gamet

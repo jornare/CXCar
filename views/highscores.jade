@@ -1,0 +1,9 @@
+div.highscores
+    h1 Highscores
+    div.list
+        div(ng-repeat="player in highscores" ng-class="{me:player.id == $game.me.id}")
+            div.col1 {{$index + 1}}
+            div.col2 {{player.handle || 'Anonymous'}} {{player.highscore}}
+        div(ng-if="$game.me.rank>10" class="me")
+            div.col1 {{$game.me.rank}}
+            div.col2 {{$game.me.handle || 'Anonymous'}} {{$game.me.highscore}}

@@ -1,0 +1,437 @@
+html 
+  -ms-touch-action: none /* Direct all pointer events to JavaScript code. */
+  touch-action: none
+  -webkit-user-select: none
+  user-select: none
+
+@font-face
+  font-family: 'din'
+  src: url('../fonts/dinpro-bold-webfont.eot')
+  src: url('../fonts/dinpro-bold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/dinpro-bold-webfont.woff') format('woff'), url('../fonts/dinpro-bold-webfont.ttf') format('truetype')
+  font-weight: bold
+  font-style: normal
+
+@font-face
+  font-family: 'din'
+  src: url('../fonts/dinpro-italic-webfont.eot')
+  src: url('../fonts/dinpro-italic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/dinpro-italic-webfont.woff') format('woff'), url('../fonts/dinpro-italic-webfont.ttf') format('truetype')
+  font-weight: normal
+  font-style: italic
+
+@font-face
+  font-family: 'din'
+  src: url('../fonts/dinpro-webfont.eot')
+  src: url('../fonts/dinpro-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/dinpro-webfont.woff') format('woff'), url('../fonts/dinpro-webfont.ttf') format('truetype')
+  font-weight: normal
+  font-style: normal
+
+@font-face
+  font-family: 'din'
+  src: url('../fonts/din-light-webfont.eot')
+  src: url('../fonts/din-light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/din-light-webfont.woff') format('woff'), url('../fonts/din-light-webfont.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal
+
+body
+  text-align:center
+  font: 18px 'din', "Lucida Grande", Helvetica, Arial, sans-serif
+  background: #c8e8ea url('/theme/bg3.png') top left repeat-x
+h1
+  color: #07466d
+a
+  color: #00B7FF
+.flybutton
+  position:fixed
+  top:0
+  left:0
+  bottom:0
+  right:0
+  background:red
+  .header
+    background: white
+    opacity: 0.8
+    text-align:center
+    font-size: 20px
+    color: white
+    padding: 10px
+	.text
+      color: #222
+      text-shadow: 0px 1px 1px #4d4d4d
+img.player
+  width:100%
+  max-height:90%
+  position:absolute
+  left:0
+  bottom:0
+p.error
+  color: red
+input.handle-setter
+  border-radius: 5px;
+  padding: 0 0 5px 7px;
+  display: inline-block;
+  font-family: 'din', arial;
+  font-weight: bold;
+  font-size: 20px;
+  color: #07466d
+  width: 160px;
+  margin:0px auto;
+  margin-left: 43px;
+  text-decoration: none;
+  border:1px solid #a7a7a7;
+button.btn-small
+  text-align:center
+  background: #ECECEC;
+  border-radius: 10px;
+  padding: 5px 4px 0px 7px;
+  display: inline-block;
+  font-family: 'din', arial;
+  font-weight: bold;
+  color:#7f7f7f;
+  text-decoration: none;
+  text-shadow:0px 1px 0px #fff;
+  border:1px solid #a7a7a7;
+  margin-left: 8px;
+  position: relative;
+  top: 5px;
+  box-shadow: 0px 2px 1px white inset, 0px -2px 6px #c4c4c2, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+  -webkit-transition:box-shadow 0.5s;
+a.btn
+  text-align:center
+  background: #ECECEC;
+  border-radius: 8px;
+  padding: 5px 12px 10px;
+  display: block;
+  font-family: 'din', arial;
+  font-weight: bold;
+  color: #07466d;
+  text-decoration: none;
+  text-shadow:0px 1px 0px #fff;
+  border:1px solid #a7a7a7;
+  width: 145px;
+  margin:0px auto;
+  margin-top:30px;
+  box-shadow: 0px 2px 1px white inset, 0px -2px 6px #c4c4c2, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+  -webkit-transition:box-shadow 0.5s;
+a.btn i
+  float: right;
+  margin-top: 2px;
+
+a.btn:hover, button.btn-small:hover
+  box-shadow: 0px 2px 1px white inset, 0px -2px 12px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer
+
+a.btn:active, button.btn-small:active
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset, 0px -2px 20px white, 0px 1px 5px rgba(0, 0, 0, 0.1), 0px 2px 10px rgba(0, 0, 0, 0.1);
+  background: -webkit-linear-gradient(top, #d1d1d1 0%,#ECECEC 100%);
+
+a.burger
+  background: rgba(250, 250, 250, 0.5)
+  border: 1px solid rgba(0,0,0,0.5)
+  border-radius: 2px
+  width:28px
+  cursor: pointer
+a.burger div
+	border: 1px solid #07466d
+	height:2px
+	border-radius: 3px
+	background: black
+	margin: 3px
+
+.pull-left
+  float: left
+
+section.status
+  margin-top: 20px
+.highscores .list
+  display: inline-block
+  margin: 0 auto
+  margin-left: 100px
+  font-size: 20pt
+.highscores .list
+  margin: 5px
+.highscores .list .me
+  color: yellow
+.list .col1
+  width: 80px
+  margin: 0px auto
+  margin-left: 100px
+  display: inline-block
+  color: #07466d
+.list .col2
+  width: 360px
+  display: inline-block
+  text-align: left
+
+.view-animate-container
+  margin: 15px
+  position:absolute
+  top:0
+  bottom:0
+  left:0
+  right:0
+  background: rgba(255,255,255,0.4)
+  border:1px solid rgba(0,0,0,0.4)
+  overflow:hidden
+
+.view-animate
+  padding: 15px
+.view-animate.ng-enter,
+.view-animate.ng-leave
+  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s
+  display:block
+  width:100%
+  position:absolute
+  top:0
+  left:0
+  right:0
+  bottom:0
+.view-animate.ng-enter
+  left:100%
+.view-animate.ng-enter.ng-enter-active
+  left:0
+.view-animate.ng-leave.ng-leave-active
+  left:-100%
+  color: red
+
+td.number
+  text-align:right
+
+table.currentplayers
+  margin:0px auto
+  font-family: 'din', 'Lucida Console', Monaco, monospace
+  background-color: rgba(250, 250, 250, 0.5)
+  border: 1px solid rgba(250, 250, 250, 0.3)
+  border-radius: 4px
+
+table.currentplayers th
+  color: #07466d
+
+table.currentplayers td
+  font-size: 16px
+
+table.currentplayers th, table.currentplayers td
+  padding: 5px 15px
+
+table.currentplayers th:not(:first-child), table.currentplayers td:not(:first-child)
+  border-left: 1px solid rgba(250, 250, 250, 0.3)
+
+cxcar
+  float:left
+  margin:20px
+
+
+
+.absolute
+  position:absolute
+.relative
+  position:relative
+.center
+  margin: 0 auto
+.fullsize
+  width: 100%
+  height: 100%
+.ticket
+  display:inline-block
+  margin: 3px
+.winner
+  font-size: 30px
+  color:yellow
+  -webkit-animation-name: 'pulse_animation';
+  -webkit-animation-duration: 2000ms;
+  -webkit-transform-origin:70% 70%;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-text-shadow: 1px 0px 20px yellow;
+  -webkit-text-shadow: 1px 0px 20px yellow;
+  text-shadow: 1px 0px 20px yellow;
+@-webkit-keyframes pulse_animation
+  0% { font-size:30px; }
+  50% { font-size:60px; }
+  100% { font-size:30px; }
+/*
+  0% { -webkit-transform: scale(1); }
+  50% { -webkit-transform: scale(2); }
+  100% { -webkit-transform: scale(1); }
+  */
+
+
+
+.spin.ng-enter, .spin.ng-move
+  display: block;
+
+.spin.ng-enter.ng-enter-active,
+.spin.ng-move.ng-move-active
+	opacity:1;
+
+.spin.ng-leave
+  -webkit-animation:1s leave
+  -moz-animation:1s leave
+  -o-animation:1s leave
+  animation:1s leave
+
+@-webkit-keyframes enter {
+    from {
+        opacity: 0;
+        height: 0px;
+        top: -50px;
+        left: -5px;
+    }
+    10% {
+        left: 45px;
+    }
+    20% {
+        top: 40px;
+    }
+    30% {
+        left: -35px;
+    }
+    40% {
+        top: -30px;
+    }
+    50% {
+        left: 25px;
+    }
+    60% {
+        top: 20px;
+    }
+    70% {
+        left: -15px;
+    }
+    80% {
+        top: -10px;
+    }
+    90% {
+        left: 5px;
+    }
+    to {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+        top: 0px;
+    }
+}
+@keyframes enter {
+    from {
+        opacity: 0;
+        height: 0px;
+        top: -50px;
+        left: -5px;
+    }
+    10% {
+        left: 45px;
+    }
+    20% {
+        top: 40px;
+    }
+    30% {
+        left: -35px;
+    }
+    40% {
+        top: -30px;
+    }
+    50% {
+        left: 25px;
+    }
+    60% {
+        top: 20px;
+    }
+    70% {
+        left: -15px;
+    }
+    80% {
+        top: -10px;
+    }
+    90% {
+        left: 5px;
+    }
+    to {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+        top: 0px;
+    }
+}
+
+@-webkit-keyframes leave {
+    to {
+        opacity: 0;
+        height: 0px;
+        top: -50px;
+        left: -5px;
+    }
+    90% {
+        left: 45px;
+    }
+    80% {
+        top: 40px;
+    }
+    70% {
+        left: -35px;
+    }
+    60% {
+        top: -30px;
+    }
+    50% {
+        left: 25px;
+    }
+    40% {
+        top: 20px;
+    }
+    30% {
+        left: -15px;
+    }
+    20% {
+        top: -10px;
+    }
+    10% {
+        left: 5px;
+    }
+    from {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+        top: 0px;
+    }
+}
+@keyframes leave {
+    to {
+        opacity: 0;
+        height: 0px;
+        top: -50px;
+        left: -5px;
+    }
+    90% {
+        left: 45px;
+    }
+    80% {
+        top: 40px;
+    }
+    70% {
+        left: -35px;
+    }
+    60% {
+        top: -30px;
+    }
+    50% {
+        left: 25px;
+    }
+    40% {
+        top: 20px;
+    }
+    30% {
+        left: -15px;
+    }
+    20% {
+        top: -10px;
+    }
+    10% {
+        left: 5px;
+    }
+    from {
+        opacity: 1;
+        height: 30px;
+        left: 0px;
+        top: 0px;
+    }
+}
