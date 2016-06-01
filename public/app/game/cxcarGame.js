@@ -27,13 +27,12 @@
 }(window));
 
 (function (cxcar, window) {
-    var barSpeed = 0.01,
-        g = 0.00015,
-        floor = 92,
+    var floor = 92,
         playerWidth = 10,//must match server size of player for correct crash-detection
         playerHeight = 10,
         playerRadius = playerWidth / 2,
-        playerImg = new Image();
+        playerImg = new Image(),
+        obstaclesSpeed = 0.01;
     playerImg.src = '../../img/cxLogo.png';
 
     //constructor
@@ -63,7 +62,7 @@
     cxcar.Game.prototype.render = function () {
         var ctx = this.ctx,//.getContext('2d');
             i, p, pl = this.gameService.players.playing,
-            bars = this.gameService.bars,
+            obstacles = this.gameService.obstacles,
             now = Date.now(),
             dt = now - this.time,
             self = this;
@@ -75,7 +74,7 @@
         this.background.draw(ctx);
         for (i = 0; i < pl.length; i++) {
             if(this.gameService.interpolate) {
-                pl[i].ys += dt * g;
+                /*pl[i].ys += dt;
                 pl[i].y += dt * pl[i].ys;
                 pl[i].life += dt;
                 if (pl[i].y < 0) {
@@ -84,18 +83,27 @@
                 } else if (pl[i].y > floor - playerHeight) {
                     pl[i].y = floor - playerHeight;
                     pl[i].ys = 0;
-                }
+                }*/
             }
             this.renderPlayer(pl[i], ctx, dt);
         }
         ctx.globalAlpha = 1;
         ctx.fillStyle = 'red';
-        for (i = 0; i < bars.length; i++) {
+        for (i = 0; i < obstacles.length; i++) {
             if(this.gameService.interpolate) {
-                bars[i].x -= dt * barSpeed;
+                obstacles[i].x -= dt * obstaclesSpeed;
             }
-            this.renderBar(bars[i], ctx);
+            this.renderObstacle(obstacles[i], ctx);
         }
+        
+        //temporary turn- direction text
+        if(this.gameService.turnDirection == 0){
+            ctx.strokeText('left', 30, 30, 100);
+        } 
+        if(this.gameService.turnDirection == 2){
+            ctx.strokeText('right', 30, 30, 100);
+        } 
+        
         this.gameService.interpolate = true;
     };
 
@@ -158,89 +166,28 @@
         }
         ctx.putImageData(c, 0, 0);
     }
-
-
-    var leafRight = "'",
-        leafLeft = ",",
-        floralBase = "}",
-        rose = "@",
-        blur = 1,
-
-        green = '#3d9943',
-        greenShadow = '#335d36',
-        darkGreen = '#054b0a',
-        darkGreenShadow = '#033507',
-        red = '#a71a1a',
-        redShadow = '#7b0e0e';
-
-    function drawRose(ctx) {
-        var posX = 0, posY=0;
-        ctx.fillStyle = red;
-        ctx.shadowColor = redShadow;
-        ctx.fillText(rose, posX, posY);
-        posX += ctx.measureText(rose).width;
-
-        ctx.fillStyle = darkGreen;
-        ctx.shadowColor = darkGreenShadow;
-        ctx.fillText(floralBase, posX, posY);
-        posX += ctx.measureText(floralBase).width;
-
-        ctx.fillStyle = green;
-        ctx.shadowColor = greenShadow;
-        ctx.fillText('-', posX, posY);
-        posX += ctx.measureText('-').width;
-
-        ctx.fillStyle = darkGreen;
-        ctx.shadowColor = darkGreenShadow;
-        ctx.fillText(leafRight, posX, posY);
-        posX += ctx.measureText(leafRight).width;
-
-        ctx.fillStyle = green;
-        ctx.shadowColor = greenShadow;
-        ctx.fillText('--', posX, posY);
-        posX += ctx.measureText('--').width;
-
-        ctx.fillStyle = darkGreen;
-        ctx.shadowColor = darkGreenShadow;
-        ctx.fillText(leafLeft, posX, posY);
-        posX += ctx.measureText(leafLeft).width;
-
-        ctx.fillStyle = green;
-        ctx.shadowColor = greenShadow;
-        ctx.fillText('--', posX, posY);
-        posX += ctx.measureText('--').width;
-
-        ctx.fillStyle = darkGreen;
-        ctx.shadowColor = darkGreenShadow;
-        ctx.fillText(leafRight, posX, posY);
-        posX += ctx.measureText(leafRight).width;
-
-        ctx.fillStyle = green;
-        ctx.shadowColor = greenShadow;
-        ctx.fillText('----', posX, posY);
-        posX += ctx.measureText('----').width;
-    }
-
-    cxcar.Game.prototype.renderBar = function (b, ctx) {
+    
+    cxcar.Game.prototype.renderObstacle = function (o, ctx) {
         var posX = 0,
             posY = 0;
-        ctx.shadowOffsetX = posX + 2;
-        ctx.shadowBlur = blur;
-        ctx.font = "70px Georgia";
-        //ctx.fillRect(b.x * this.xScale, 0, b.w * this.yScale, b.hy1 * this.yScale);
-        //ctx.fillRect(b.x * this.xScale, b.hy2 * this.yScale, b.w * this.yScale, 100 * this.yScale);
+            ctx.fillRect(o.x * this.xScale, o.y * this.yScale, 10 * this.xScale, 10 * this.yScale);
+        // ctx.shadowOffsetX = posX + 2;
+        // ctx.shadowBlur = blur;
+        // ctx.font = "70px Georgia";
+        // //ctx.fillRect(b.x * this.xScale, 0, b.w * this.yScale, b.hy1 * this.yScale);
+        // //ctx.fillRect(b.x * this.xScale, b.hy2 * this.yScale, b.w * this.yScale, 100 * this.yScale);
 
-        //
-        ctx.save();
-        ctx.translate(b.x * this.xScale + 48, b.hy1 * this.yScale + 5);
-        ctx.rotate(-Math.PI/2);
-        drawRose(ctx);
-        ctx.restore();
+        // //
+        // ctx.save();
+        // ctx.translate(b.x * this.xScale + 48, b.hy1 * this.yScale + 5);
+        // ctx.rotate(-Math.PI/2);
 
-        ctx.save();
-        ctx.translate(b.x * this.xScale + 10, b.hy2 * this.yScale - 5);
-        ctx.rotate(Math.PI/2);
-        drawRose(ctx);
+        // ctx.restore();
+
+        // ctx.save();
+        // ctx.translate(b.x * this.xScale + 10, b.hy2 * this.yScale - 5);
+        // ctx.rotate(Math.PI/2);
+
         ctx.restore();
     };
 

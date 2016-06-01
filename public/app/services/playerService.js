@@ -2,13 +2,13 @@
 
     angular.module('app')
         .service('$player', ['$socket', function($socket) {
-            function fly(){
+            function move(){
 
                 }
             return {
                     handle: '',
                     highscore: 0,
-                    fly: fly
+                    move: move
                 }
             }]);
 

@@ -20,9 +20,9 @@
 
     //constructor
     cxcar.Background = function (theme) {
-        this.background1 = new cxcar.RepeatingGameObject(bg1Img, 0, 0, 1, 1200, 600, 1);
-        this.background2 = new cxcar.RepeatingGameObject(bg2Img, 0, 10, 2, 800, 600, 0.5);
-        this.background3 = new cxcar.RepeatingGameObject(bg3Img, 0, 2, 3, 800, 600, 0.2);
+        this.background1 = new cxcar.RepeatingGameObject(bg1Img, 0, 0, 1, 1200, 600, 4);
+        this.background2 = new cxcar.RepeatingGameObject(bg2Img, 0, 10, 2, 800, 600, 0.2);
+        this.background3 = new cxcar.RepeatingGameObject(bg3Img, 0, 2, 3, 800, 600, 0.1);
         this.xScroll = 0;
     };
 

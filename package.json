@@ -1,5 +1,5 @@
-﻿{
-  "name": "CXCar",
+{
+  "name": "cxcar",
   "version": "0.1.0",
   "description": "CXCar",
   "main": "app.js",
@@ -17,6 +17,7 @@
     "socket.io": "*"
   },
   "repository": {
-    
+    "type" : "git",
+    "url" : "https://github.com/jornare/CXCar.git"
   }
 }

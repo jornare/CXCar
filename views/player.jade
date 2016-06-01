@@ -1,4 +1,4 @@
 div.flybutton(ng-style='{background:color}')
     div.header
         div.text(ng-bind="me.handle + ' '+ me.score + '/'+ me.highscore + ' rank: ' + me.rank + '/'+$game.players.all.length")
-    img.player(src="../img/button.png" ng-visible="me.playing" ng-click='fly();$event.preventDefault();$event.stopPropagation();')
+    img.player(src="../img/button.png" ng-visible="me.playing" ng-click='move();$event.preventDefault();$event.stopPropagation();')

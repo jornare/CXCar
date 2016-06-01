@@ -24,6 +24,7 @@
             var sessionid = null,
                 game = {
                     me: null,
+                    turnDirection: 0,
                     players: {
                         all: [],
                         online: [],
@@ -32,7 +33,7 @@
                     },
                     theme: 'default',
                     highscores: [],
-                    bars: [],
+                    obstacles: [],
                     interpolate: false,
                     watchGame: function () {
                         $socket.emit('watch');
@@ -46,8 +47,8 @@
                     stopPlay: function() {
                         $socket.emit('stopPlay', {});
                     },
-                    fly: function () {
-                        $socket.emit('fly', {});
+                    move: function () {
+                        $socket.emit('move', {});
                     },
 
                     setHandle: function(handle) {
@@ -155,7 +156,7 @@
             $socket.on('move', function (data) {
                 var i, u, players = game.players,
                     users = data.p,
-                    bars = data.b;
+                    obstacles = data.b;
                 for (i = 0; i < users.length; i++) {
                     u = players.playing.getById(users[i].id);
                     if (u) {
@@ -166,10 +167,14 @@
                         u.life = users[i].life;
                     }
                 }
-                game.bars = bars;
+                game.obstacles = obstacles;
                 game.interpolate = false; //we got real values, do not interpolate before draw
             });
 
+            $socket.on('direction', function(data) {
+                game.turnDirection = data;
+            });
+            
             $socket.on('highscores', function (data) {
                 $rootScope.$apply(function () {
                     game.highscores.length = 0;

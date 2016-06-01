@@ -6,7 +6,7 @@
             ['$scope', '$game', '$socket', '$location',
             function ($scope, $game, $socket, $location) {
                 $scope.$game = $game;
-                $scope.fly = $game.fly;
+                $scope.move = $game.move;
                 $scope.color = 'gray';
                 $scope.me = $game.me;
                 $scope.$watch('$game.me', function (me) {
