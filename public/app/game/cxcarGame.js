@@ -33,6 +33,9 @@
         playerHeight = 10,
         playerImg = new Image(),
         playerImgMask = new Image(),
+        turnsignRightImg = new Image(),
+        turnsignLeftImg = new Image(),
+        turnsignNoturnImg = new Image(),
         opponentImg = new Image(),
         obstaclesSpeed = 0.015,
         layeredRenderObjects = [],
@@ -40,6 +43,9 @@
     playerImg.src = '../../img/cxcarplayer1.png';
     playerImgMask.src = '../../img/cxcarplayer1Mask.png';
     opponentImg.src = '../../img/opponent.png';
+    turnsignRightImg.src = '../../img/turnsignRight.png';
+    turnsignLeftImg.src = '../../img/turnsignLeft.png';
+    turnsignNoturnImg.src = '../../img/turnsign.png';
 
     playerImgMask.onload= function() {
         console.log('maskloaded');
@@ -148,12 +154,16 @@
         
         //temporary turn- direction text
         if(this.gameService.turnDirection == 0){
-            ctx.strokeText('left', 30, 30, 100);
-        } 
-        if(this.gameService.turnDirection == 2){
-            ctx.strokeText('right', 30, 30, 100);
-        } 
-       
+            //ctx.strokeText('left', 30, 30, 100);
+            ctx.drawImage(turnsignLeftImg, 0,0,200,200);
+
+        } else if(this.gameService.turnDirection == 2){
+            //ctx.strokeText('right', 30, 30, 100);
+            ctx.drawImage(turnsignRightImg, 0,0,200,200);
+        } else {
+            ctx.drawImage(turnsignNoturnImg, 0,0,200,200);
+        }
+        
     };
 
 
