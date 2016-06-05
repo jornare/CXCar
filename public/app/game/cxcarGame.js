@@ -35,7 +35,8 @@
         playerImgMask = new Image(),
         opponentImg = new Image(),
         obstaclesSpeed = 0.015,
-        layeredRenderObjects = [];
+        layeredRenderObjects = [],
+        moveToFrontTime = 120 * 1000;// in ms 
     playerImg.src = '../../img/cxcarplayer1.png';
     playerImgMask.src = '../../img/cxcarplayer1Mask.png';
     opponentImg.src = '../../img/opponent.png';
@@ -71,6 +72,7 @@
         var now = Date.now(),
             dt = now - this.time,
             pl = this.gameService.players.playing,
+            p,
             obstacles = this.gameService.obstacles,
             self = this;
         this.layeredRenderObjects = [];
@@ -80,7 +82,14 @@
 
         
         for (i = 0; i < pl.length; i++) {
-            if(this.gameService.interpolate) {
+            if(this.gameService.interpolate) { //must be in sync with server movements
+                p = pl[i];
+                p.life += dt;
+                if(p.life < 0) {
+                    p.x = 5 + p.life / 60;
+                } else {
+                    p.x = 5 + Math.min(70, 70 * ((p.life  / moveToFrontTime) + (1.0/(p.life * moveToFrontTime))));
+                }
                 /*pl[i].ys += dt;
                 pl[i].y += dt * pl[i].ys;
                 pl[i].life += dt;
@@ -111,6 +120,7 @@
         this.layeredRenderObjects.sort(function(a, b) {
             return a.z - b.z;
         });
+        this.gameService.interpolate = true;
     }
 
     cxcar.Game.prototype.render = function () {
@@ -143,8 +153,7 @@
         if(this.gameService.turnDirection == 2){
             ctx.strokeText('right', 30, 30, 100);
         } 
-        
-        this.gameService.interpolate = true;
+       
     };
 
 
