@@ -1,1 +1,1 @@
-[]
+[{"id":"6TJDMrlow4hTFZ2vAAAE","handle":"jornare","img":"","score":192,"highscore":192,"online":true,"playing":true,"life":1920504,"color":"red","rank":1,"lastBarId":0,"x":0,"y":80,"ys":0,"lane":4,"yx":0}]

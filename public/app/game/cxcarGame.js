@@ -2,8 +2,8 @@
 
 //RequestAnimationFrame polyfill
 (function (window) {
-    var lastTime = 0;
-    var vendors = ['webkit', 'moz'];
+    var lastTime = 0,
+        vendors = ['webkit', 'moz'];
     for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
         window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
         window.cancelAnimationFrame =
@@ -12,9 +12,9 @@
 
     if (!window.requestAnimationFrame)
         window.requestAnimationFrame = function (callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function () { callback(currTime + timeToCall); },
+            var currTime = new Date().getTime(),
+                timeToCall = Math.max(0, 16 - (currTime - lastTime)),
+                id = window.setTimeout(function () { callback(currTime + timeToCall); },
               timeToCall);
             lastTime = currTime + timeToCall;
             return id;
@@ -25,6 +25,7 @@
             clearTimeout(id);
         };
 }(window));
+//end polyfill
 
 (function (cxcar, window) {
     var floor = 92,
@@ -125,26 +126,26 @@
         }
 
         //leader shirt
-        if (p.rank == 1) {
-            ctx.save();
-            ctx.translate(x + w/2,y + h/2);
-            ctx.scale(w / h, 1);
-            ctx.beginPath();
-            ctx.arc(0, 0, h / 2 -1, 0, 2 * Math.PI, false);
-            ctx.strokeStyle = 'rgba(255,255,0,0.7)';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.restore();
-        }
-        if(p.score > 29) {
-            if(!p.flame) {
-                p.flame = new cxcar.Flame(x, y, w/2);
-            }
-            p.flame.x = x+w/2;
-            p.flame.y = y+h/2;
-            p.flame.update(dt);
-            p.flame.draw(ctx);
-        }
+        // if (p.rank == 1) {
+        //     ctx.save();
+        //     ctx.translate(x + w/2,y + h/2);
+        //     ctx.scale(w / h, 1);
+        //     ctx.beginPath();
+        //     ctx.arc(0, 0, h / 2 -1, 0, 2 * Math.PI, false);
+        //     ctx.strokeStyle = 'rgba(255,255,0,0.7)';
+        //     ctx.lineWidth = 2;
+        //     ctx.stroke();
+        //     ctx.restore();
+        // }
+        // if(p.score > 29) {
+        //     if(!p.flame) {
+        //         p.flame = new cxcar.Flame(x, y, w/2);
+        //     }
+        //     p.flame.x = x+w/2;
+        //     p.flame.y = y+h/2;
+        //     p.flame.update(dt);
+        //     p.flame.draw(ctx);
+        // }
         ctx.drawImage(p.canvas, x, y, w, h);
 
     };
