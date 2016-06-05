@@ -15,7 +15,7 @@
                         canvas.setAttribute('id','canvas');
                         canvas.setAttribute('width','100%');
                         canvas.setAttribute('height','100%');
-                        canvas.width="800";
+                        canvas.width="1000";
                         canvas.height="600";
                         element[0].appendChild(canvas);
                         scope.cxcar = new cxcar.Game(canvas.getContext('2d'), scope.game);

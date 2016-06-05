@@ -31,11 +31,18 @@
     var floor = 92,
         playerWidth = 10,//must match server size of player for correct crash-detection
         playerHeight = 10,
-        playerRadius = playerWidth / 2,
         playerImg = new Image(),
-        obstaclesSpeed = 0.01;
-    playerImg.src = '../../img/cxLogo.png';
+        playerImgMask = new Image(),
+        opponentImg = new Image(),
+        obstaclesSpeed = 0.015,
+        layeredRenderObjects = [];
+    playerImg.src = '../../img/cxcarplayer1.png';
+    playerImgMask.src = '../../img/cxcarplayer1Mask.png';
+    opponentImg.src = '../../img/opponent.png';
 
+    playerImgMask.onload= function() {
+        console.log('maskloaded');
+    }
     //constructor
     cxcar.Game = function (ctx, gameService) {
         this.ctx = ctx;
@@ -44,7 +51,7 @@
         this.timer = null;
         this.gameService = gameService;
         this.background = new cxcar.Background(gameService.theme);
-        this.xScale = 8.0;
+        this.xScale = 10.0;
         this.yScale = 6.0;
         this.time = Date.now();
     };
@@ -60,19 +67,18 @@
         //clearInterval(this.timer);
     };
 
-    cxcar.Game.prototype.render = function () {
-        var ctx = this.ctx,//.getContext('2d');
-            i, p, pl = this.gameService.players.playing,
-            obstacles = this.gameService.obstacles,
-            now = Date.now(),
+    cxcar.Game.prototype.move = function () {
+        var now = Date.now(),
             dt = now - this.time,
+            pl = this.gameService.players.playing,
+            obstacles = this.gameService.obstacles,
             self = this;
-        this.timer = window.requestAnimationFrame(function(){self.render()});
-
+        this.layeredRenderObjects = [];
         this.time = now;
-        //this.renderBackground(ctx);
+        this.timer = window.requestAnimationFrame(function(){self.render()});
         this.background.update(dt);
-        this.background.draw(ctx);
+
+        
         for (i = 0; i < pl.length; i++) {
             if(this.gameService.interpolate) {
                 /*pl[i].ys += dt;
@@ -86,16 +92,49 @@
                     pl[i].ys = 0;
                 }*/
             }
-            this.renderPlayer(pl[i], ctx, dt);
-        }
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = 'red';
+            this.layeredRenderObjects.push({
+                obj: pl[i],
+                z: pl[i].y,
+                render: this.renderPlayer
+            });
+        }    
         for (i = 0; i < obstacles.length; i++) {
             if(this.gameService.interpolate) {
                 obstacles[i].x -= dt * obstaclesSpeed;
             }
-            this.renderObstacle(obstacles[i], ctx);
+            this.layeredRenderObjects.push({
+                obj: obstacles[i],
+                z: obstacles[i].y,
+                render: this.renderObstacle
+            });
+        } 
+        this.layeredRenderObjects.sort(function(a, b) {
+            return a.z - b.z;
+        });
+    }
+
+    cxcar.Game.prototype.render = function () {
+        this.move();
+        var ctx = this.ctx,//.getContext('2d');
+            i,
+            p, 
+            pl = this.gameService.players.playing,
+            obstacles = this.gameService.obstacles;
+
+
+        this.background.draw(ctx);
+        
+        for(i=0; i<this.layeredRenderObjects.length; i++) {
+            this.layeredRenderObjects[i].render.call(this, this.layeredRenderObjects[i].obj, ctx);
         }
+        
+        // for (i = 0; i < pl.length; i++) {
+        //     this.renderPlayer(pl[i], ctx, dt);
+        // }
+
+        // for (i = 0; i < obstacles.length; i++) {
+        //     this.renderObstacle(obstacles[i], ctx);
+        // }
         
         //temporary turn- direction text
         if(this.gameService.turnDirection == 0){
@@ -109,7 +148,7 @@
     };
 
 
-    cxcar.Game.prototype.renderPlayer = function (p, ctx, dt) {
+    cxcar.Game.prototype.renderPlayer = function (p, ctx) {
         var x = p.x * this.xScale,
             y = p.y * this.yScale,
             w = playerWidth * this.xScale,
@@ -147,23 +186,35 @@
         //     p.flame.draw(ctx);
         // }
         ctx.drawImage(p.canvas, x, y, w, h);
-
+        ctx.globalAlpha = 1;
     };
 
     cxcar.Game.prototype.addPlayerBlob = function (player) {
+        var maskCanvas = document.createElement('canvas'),
+            maskCtx = maskCanvas.getContext('2d'),
+            i;
         player.canvas = document.createElement('canvas');
-        player.canvas.width = playerWidth * this.xScale;
-        player.canvas.height = playerHeight * this.yScale;
+        maskCanvas.width = player.canvas.width = playerWidth * this.xScale;
+        maskCanvas.height = player.canvas.height = playerHeight * this.yScale;
+        maskCtx.drawImage(playerImgMask, 0, 0, player.canvas.width, player.canvas.height);
+        
         var ctx = player.canvas.getContext('2d'),
             a = ctx.drawImage(playerImg, 0, 0, player.canvas.width, player.canvas.height),
             c = ctx.getImageData(0, 0, player.canvas.width, player.canvas.height),
+            cMask = maskCtx.getImageData(0, 0, player.canvas.width, player.canvas.height);
             l = playerWidth * this.xScale * playerHeight * this.yScale * 4,
             rgb = new RGBColor(player.color);
+//color the player
 
         for (var i = 0; i < l; i += 4) {
-            c.data[i] = Math.floor(c.data[i] * rgb.r / 256);
-            c.data[i + 1] = Math.floor(c.data[i + 1] * rgb.g / 256);
-            c.data[i + 2] = Math.floor(c.data[i + 2] * rgb.b / 256);
+            if(cMask.data[i+3] > 100) {
+                c.data[i] = Math.floor(cMask.data[i] * cMask.data[i + 3] * rgb.r / (255 * 255));
+                c.data[i + 1] = Math.floor(cMask.data[i + 1] * cMask.data[i + 3] * rgb.g / (255 * 255));
+                c.data[i + 2] = Math.floor(cMask.data[i + 2] * cMask.data[i + 3] * rgb.b / (255 * 255));    
+                // if(c.data[i+1]<=0 && c.dat) {
+                //     debugger;
+                // } 
+            }
         }
         ctx.putImageData(c, 0, 0);
     }
@@ -171,7 +222,8 @@
     cxcar.Game.prototype.renderObstacle = function (o, ctx) {
         var posX = 0,
             posY = 0;
-            ctx.fillRect(o.x * this.xScale, o.y * this.yScale, 10 * this.xScale, 10 * this.yScale);
+            //ctx.fillRect(o.x * this.xScale, o.y * this.yScale, 10 * this.xScale, 10 * this.yScale);
+            ctx.drawImage(opponentImg, o.x * this.xScale, o.y * this.yScale, 10 * this.xScale, 10 * this.yScale);
         // ctx.shadowOffsetX = posX + 2;
         // ctx.shadowBlur = blur;
         // ctx.font = "70px Georgia";
