@@ -151,6 +151,8 @@
                             u.playing = user.playing;
                         }
                     });
+                } else {
+                    console.log('user not found');
                 }
             });
             $socket.on('move', function (data) {
@@ -177,8 +179,9 @@
             
             $socket.on('highscores', function (data) {
                 $rootScope.$apply(function () {
-                    game.highscores.length = 0;
                     var i;
+                    game.highscores.length = 0;
+
                     for (i = 0; i < data.length; i++) {
                         game.highscores.push(data[i]);
                     }

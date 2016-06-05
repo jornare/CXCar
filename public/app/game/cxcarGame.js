@@ -32,24 +32,24 @@
         playerWidth = 10,//must match server size of player for correct crash-detection
         playerHeight = 10,
         playerImg = new Image(),
+        playerLeadImg = new Image(),
         playerImgMask = new Image(),
         turnsignRightImg = new Image(),
         turnsignLeftImg = new Image(),
         turnsignNoturnImg = new Image(),
         opponentImg = new Image(),
+        //wheelImg = new Image(),
         obstaclesSpeed = 0.015,
         layeredRenderObjects = [],
         moveToFrontTime = 120 * 1000;// in ms 
     playerImg.src = '../../img/cxcarplayer1.png';
+    playerLeadImg.src = '../../img/cxcarplayerLead.png';
     playerImgMask.src = '../../img/cxcarplayer1Mask.png';
     opponentImg.src = '../../img/opponent.png';
     turnsignRightImg.src = '../../img/turnsignRight.png';
     turnsignLeftImg.src = '../../img/turnsignLeft.png';
     turnsignNoturnImg.src = '../../img/turnsign.png';
 
-    playerImgMask.onload= function() {
-        console.log('maskloaded');
-    }
     //constructor
     cxcar.Game = function (ctx, gameService) {
         this.ctx = ctx;
@@ -61,12 +61,29 @@
         this.xScale = 10.0;
         this.yScale = 6.0;
         this.time = Date.now();
+        this.leader = null;
     };
 
     cxcar.Game.prototype.start = function () {
         var self = this;
         this.render();
-        //setInterval(function () { self.render() }, 0);
+        setInterval(function () { 
+            var i,
+                players = self.gameService.players.playing,
+                p;
+
+            for(i = 0; i < players.length; i++) {
+                p = players[i];
+                if (p.rank == 1 && self.leader !== p) {
+                    if(self.leader) {
+                        self.leader.rank = 2; //hack, in kase not updated from server
+                        self.addPlayerBlob(self.leader); //turn off yellow 'shirt'
+                    }
+                    self.addPlayerBlob(p); //turn on yellow 'shirt'
+                    self.leader = p;
+                }
+            }
+        }, 5000);
     };
 
     cxcar.Game.prototype.stop = function () {
@@ -96,16 +113,6 @@
                 } else {
                     p.x = 5 + Math.min(70, 70 * ((p.life  / moveToFrontTime) + (1.0/(p.life * moveToFrontTime))));
                 }
-                /*pl[i].ys += dt;
-                pl[i].y += dt * pl[i].ys;
-                pl[i].life += dt;
-                if (pl[i].y < 0) {
-                    pl[i].y = 0;
-                    pl[i].ys = 0;
-                } else if (pl[i].y > floor - playerHeight) {
-                    pl[i].y = floor - playerHeight;
-                    pl[i].ys = 0;
-                }*/
             }
             this.layeredRenderObjects.push({
                 obj: pl[i],
@@ -143,22 +150,11 @@
         for(i=0; i<this.layeredRenderObjects.length; i++) {
             this.layeredRenderObjects[i].render.call(this, this.layeredRenderObjects[i].obj, ctx);
         }
-        
-        // for (i = 0; i < pl.length; i++) {
-        //     this.renderPlayer(pl[i], ctx, dt);
-        // }
 
-        // for (i = 0; i < obstacles.length; i++) {
-        //     this.renderObstacle(obstacles[i], ctx);
-        // }
-        
         //temporary turn- direction text
-        if(this.gameService.turnDirection == 0){
-            //ctx.strokeText('left', 30, 30, 100);
+        if(this.gameService.turnDirection == 0){ //left
             ctx.drawImage(turnsignLeftImg, 0,0,200,200);
-
-        } else if(this.gameService.turnDirection == 2){
-            //ctx.strokeText('right', 30, 30, 100);
+        } else if(this.gameService.turnDirection == 2){ //right
             ctx.drawImage(turnsignRightImg, 0,0,200,200);
         } else {
             ctx.drawImage(turnsignNoturnImg, 0,0,200,200);
@@ -183,18 +179,7 @@
             this.addPlayerBlob(p);
         }
 
-        //leader shirt
-        // if (p.rank == 1) {
-        //     ctx.save();
-        //     ctx.translate(x + w/2,y + h/2);
-        //     ctx.scale(w / h, 1);
-        //     ctx.beginPath();
-        //     ctx.arc(0, 0, h / 2 -1, 0, 2 * Math.PI, false);
-        //     ctx.strokeStyle = 'rgba(255,255,0,0.7)';
-        //     ctx.lineWidth = 2;
-        //     ctx.stroke();
-        //     ctx.restore();
-        // }
+
         // if(p.score > 29) {
         //     if(!p.flame) {
         //         p.flame = new cxcar.Flame(x, y, w/2);
@@ -204,21 +189,27 @@
         //     p.flame.update(dt);
         //     p.flame.draw(ctx);
         // }
-        ctx.drawImage(p.canvas, x, y, w, h);
+        ctx.drawImage(p.canvas, x, y);
+
         ctx.globalAlpha = 1;
     };
 
     cxcar.Game.prototype.addPlayerBlob = function (player) {
+        console.log('addPlayerBlob', player.color);
+        if(!player.canvas) {
+            player.canvas = document.createElement('canvas');
+        }
         var maskCanvas = document.createElement('canvas'),
             maskCtx = maskCanvas.getContext('2d'),
-            i;
-        player.canvas = document.createElement('canvas');
+            i,
+            img = player.rank == 1 ? playerLeadImg: playerImg;
+
         maskCanvas.width = player.canvas.width = playerWidth * this.xScale;
         maskCanvas.height = player.canvas.height = playerHeight * this.yScale;
         maskCtx.drawImage(playerImgMask, 0, 0, player.canvas.width, player.canvas.height);
         
         var ctx = player.canvas.getContext('2d'),
-            a = ctx.drawImage(playerImg, 0, 0, player.canvas.width, player.canvas.height),
+            a = ctx.drawImage(img, 0, 0, player.canvas.width, player.canvas.height),
             c = ctx.getImageData(0, 0, player.canvas.width, player.canvas.height),
             cMask = maskCtx.getImageData(0, 0, player.canvas.width, player.canvas.height);
             l = playerWidth * this.xScale * playerHeight * this.yScale * 4,
@@ -230,9 +221,6 @@
                 c.data[i] = Math.floor(cMask.data[i] * cMask.data[i + 3] * rgb.r / (255 * 255));
                 c.data[i + 1] = Math.floor(cMask.data[i + 1] * cMask.data[i + 3] * rgb.g / (255 * 255));
                 c.data[i + 2] = Math.floor(cMask.data[i + 2] * cMask.data[i + 3] * rgb.b / (255 * 255));    
-                // if(c.data[i+1]<=0 && c.dat) {
-                //     debugger;
-                // } 
             }
         }
         ctx.putImageData(c, 0, 0);
