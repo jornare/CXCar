@@ -48,7 +48,7 @@
     opponentImg.src = '../../img/opponent.png';
     turnsignRightImg.src = '../../img/turnsignRight.png';
     turnsignLeftImg.src = '../../img/turnsignLeft.png';
-    turnsignNoturnImg.src = '../../img/turnsign.png';
+    //turnsignNoturnImg.src = '../../img/turnsign.png';
 
     //constructor
     cxcar.Game = function (ctx, gameService) {
@@ -153,11 +153,11 @@
 
         //temporary turn- direction text
         if(this.gameService.turnDirection == 0){ //left
-            ctx.drawImage(turnsignLeftImg, 0,0,200,200);
+            ctx.drawImage(turnsignLeftImg, 0,0);
         } else if(this.gameService.turnDirection == 2){ //right
-            ctx.drawImage(turnsignRightImg, 0,0,200,200);
+            ctx.drawImage(turnsignRightImg, 0,0);
         } else {
-            ctx.drawImage(turnsignNoturnImg, 0,0,200,200);
+            ctx.drawImage(turnsignNoturnImg, 0,0);
         }
         
     };
