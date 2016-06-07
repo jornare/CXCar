@@ -15,7 +15,7 @@
 
                 $scope.resetHandleError = function() {
                     $scope.handleError = '';
-                }
+                };
 
                 $scope.setHandle = function () {
                     $game.setHandle($scope.username);
@@ -29,7 +29,6 @@
                 });
 
                 $socket.on('handleInUse', function(data) {
-                    console.log(data);
                     $scope.handleError = data.error;
                 });
 

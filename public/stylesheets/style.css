@@ -104,6 +104,7 @@ button.btn-small {
   top: 5px;
   box-shadow: 0px 2px 1px #fff inset, 0px -2px 6px #c4c4c2, 0px 2px 5px rgba(0,0,0,0.1), 0px 8px 10px rgba(0,0,0,0.1);
   -webkit-transition: box-shadow 0.5s;
+  transition: box-shadow 0.5s;
 }
 a.btn {
   text-align: center;
@@ -122,6 +123,7 @@ a.btn {
   margin-top: 30px;
   box-shadow: 0px 2px 1px #fff inset, 0px -2px 6px #c4c4c2, 0px 2px 5px rgba(0,0,0,0.1), 0px 8px 10px rgba(0,0,0,0.1);
   -webkit-transition: box-shadow 0.5s;
+  transition: box-shadow 0.5s;
 }
 a.btn i {
   float: right;

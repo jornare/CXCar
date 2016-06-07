@@ -100,7 +100,7 @@
             self = this;
         this.layeredRenderObjects = [];
         this.time = now;
-        this.timer = window.requestAnimationFrame(function(){self.render()});
+        this.timer = window.requestAnimationFrame(function(){self.render();});
         this.background.update(dt);
 
         
@@ -134,7 +134,7 @@
             return a.z - b.z;
         });
         this.gameService.interpolate = true;
-    }
+    };
 
     cxcar.Game.prototype.render = function () {
         this.move();
@@ -195,7 +195,6 @@
     };
 
     cxcar.Game.prototype.addPlayerBlob = function (player) {
-        console.log('addPlayerBlob', player.color);
         if(!player.canvas) {
             player.canvas = document.createElement('canvas');
         }
@@ -216,7 +215,7 @@
             rgb = new RGBColor(player.color);
 //color the player
 
-        for (var i = 0; i < l; i += 4) {
+        for (i = 0; i < l; i += 4) {
             if(cMask.data[i+3] > 100) {
                 c.data[i] = Math.floor(cMask.data[i] * cMask.data[i + 3] * rgb.r / (255 * 255));
                 c.data[i + 1] = Math.floor(cMask.data[i + 1] * cMask.data[i + 3] * rgb.g / (255 * 255));
@@ -224,33 +223,14 @@
             }
         }
         ctx.putImageData(c, 0, 0);
-    }
+    };
     
     cxcar.Game.prototype.renderObstacle = function (o, ctx) {
         var posX = 0,
             posY = 0;
-            //ctx.fillRect(o.x * this.xScale, o.y * this.yScale, 10 * this.xScale, 10 * this.yScale);
             ctx.drawImage(opponentImg, o.x * this.xScale, o.y * this.yScale, 10 * this.xScale, 10 * this.yScale);
-        // ctx.shadowOffsetX = posX + 2;
-        // ctx.shadowBlur = blur;
-        // ctx.font = "70px Georgia";
-        // //ctx.fillRect(b.x * this.xScale, 0, b.w * this.yScale, b.hy1 * this.yScale);
-        // //ctx.fillRect(b.x * this.xScale, b.hy2 * this.yScale, b.w * this.yScale, 100 * this.yScale);
-
-        // //
-        // ctx.save();
-        // ctx.translate(b.x * this.xScale + 48, b.hy1 * this.yScale + 5);
-        // ctx.rotate(-Math.PI/2);
-
-        // ctx.restore();
-
-        // ctx.save();
-        // ctx.translate(b.x * this.xScale + 10, b.hy2 * this.yScale - 5);
-        // ctx.rotate(Math.PI/2);
-
         ctx.restore();
     };
-
 
     function CXPlayer() {
         this.x = 0;

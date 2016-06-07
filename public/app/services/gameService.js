@@ -152,7 +152,7 @@
                         }
                     });
                 } else {
-                    console.log('user not found');
+                    //console.log('user not found');
                 }
             });
             $socket.on('move', function (data) {
